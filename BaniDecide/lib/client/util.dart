@@ -4,6 +4,24 @@ import 'dart:html';
 import 'dart:async';
 import 'dart:js' as js;
 
+void initBackground() {
+  DivElement body2 = querySelector('#body2');
+  DivElement container = querySelector('#question-container');
+  
+  if (window.innerHeight > body2.clientHeight)
+    body2.style.height = '${window.innerHeight}px';
+}
+
+void renderBackground() {
+  DivElement body2 = querySelector('#body2');
+  DivElement container = querySelector('#question-container');
+  
+  if (container.offsetTo(querySelector('body')).y + container.paddingEdge.height > window.innerHeight)
+    body2.style.height = 'inherit';
+  else
+    body2.style.height = '${window.innerHeight}px';
+}
+
 String getQuestionId(Location location) 
   => location.search.isEmpty ? null : location.search.substring(4);
 

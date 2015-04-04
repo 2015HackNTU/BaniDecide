@@ -20,20 +20,24 @@ class QuestionInput {
     _parent = querySelector('#question-container form');
     _child = querySelector('.option-wrapper');
     _removeBtn = querySelector('.remove-button');
-
-    _startRemoveListener(querySelector('.option-wrapper'));
+    BRElement br = querySelector('form br');
+    
+    _startRemoveListener(_child, br);
   }
   
   void startAddOptionListener() {
     querySelector('#add-option').onClick.listen((_) {
       DivElement child = _child.clone(true);
       (child.querySelector('input') as InputElement).value = '';
+      BRElement br = new BRElement();
       
      _parent.children.insert(_parent.children.length, child);
-     _parent.children.insert(_parent.children.length, new BRElement());
+     _parent.children.insert(_parent.children.length, br);
      
      _displayRemoveBtn();
-     _startRemoveListener(child);
+     _startRemoveListener(child, br);
+     
+     renderBackground();
     });
   }
 
@@ -71,10 +75,11 @@ class QuestionInput {
     }
   }
   
-  void _startRemoveListener(DivElement newElem) {
+  void _startRemoveListener(DivElement newElem, BRElement br) {
     var listener;
     listener = newElem.querySelector('.remove-button').onClick.listen((_) {
       newElem.remove();
+      br.remove();
       _displayRemoveBtn();
       listener.cancel();
     });
